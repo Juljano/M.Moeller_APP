@@ -28,7 +28,6 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
         holder.weightEditText.setHint(String.valueOf(metallTypeData.getWeightList().get(position)));
         holder.pricePerKgEditText.setHint(String.valueOf(metallTypeData.getPriceList().get(position)));
 
-
     }
 
     @Override

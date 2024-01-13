@@ -1,7 +1,6 @@
 package de.schrotthandel.mmoeller;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -15,10 +14,8 @@ import java.util.List;
 
 
 public class SelectionFragment extends Fragment {
-
     private RecyclerView recyclerView;
     private MetallTypeAdapter metallTypeAdapter;
-
     private FloatingActionButton btnNext;
 
 

@@ -12,14 +12,19 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.google.android.material.textfield.TextInputEditText;
+import com.itextpdf.text.DocumentException;
 
 public class SummaryFragment extends Fragment {
 
     private TextInputEditText etName, etAdress, etCity, etDate, etTaxNumber, etIban, etReceiver;
     private String name, adress, cityAndPlZ, date, taxNumber, receiver, iban;
+
+    private TextView signatureTextview;
+
 
     private Button btnFinish;
 
@@ -29,8 +34,9 @@ public class SummaryFragment extends Fragment {
 
     private Button clearButton, saveButton;
 
-    private RecyclerView recyclerView;
-    private SummaryAdapter summaryAdapter;
+    private Bitmap bitmapPath;
+
+    private final CreatePDF createPDF = new CreatePDF();
 
 
     @Override
@@ -47,11 +53,12 @@ public class SummaryFragment extends Fragment {
         etTaxNumber = view.findViewById(R.id.taxNumberEditText);
         btnSignature = view.findViewById(R.id.imageButton);
         btnFinish = view.findViewById(R.id.btnFinish);
-        recyclerView = view.findViewById(R.id.metallListRecyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.metallListRecyclerView);
+        signatureTextview = view.findViewById(R.id.signatureTextview);
 
 
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
-        summaryAdapter = new SummaryAdapter();
+        SummaryAdapter summaryAdapter = new SummaryAdapter();
         recyclerView.setAdapter(summaryAdapter);
 
 
@@ -61,18 +68,17 @@ public class SummaryFragment extends Fragment {
 
 
         //Button for the Signature
-        btnSignature.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showSignatureDialog();
-            }
-        });
+        btnSignature.setOnClickListener(view12 -> showSignatureDialog());
 
 
         btnFinish.setOnClickListener(view1 -> {
-            //creat pdf file
-            CreatePDF createPDF = new CreatePDF(getActivity());
-            createPDF.createPDFFile();
+            //create pdf file
+            try {
+                createPDF.getCustomerData(getContext());
+                //createPDF.getSignature(bitmapPath);
+            } catch (DocumentException e) {
+                throw new RuntimeException(e);
+            }
         });
 
 
@@ -89,10 +95,10 @@ public class SummaryFragment extends Fragment {
         taxNumber = customerData.getTaxNumber();
         receiver = customerData.getReceiverName();
         iban = customerData.getiBan();
+
     }
 
     private void setDataToEditText() {
-
         etName.setHint(name);
         etAdress.setHint(adress);
         etCity.setHint(cityAndPlZ);
@@ -100,13 +106,13 @@ public class SummaryFragment extends Fragment {
         etTaxNumber.setHint(taxNumber);
 
 
-        //if receiver and Iban is empty then is both edittexts gone
+        //if receiver and Iban is empty then are both Edittexts gone
         if (receiver.isEmpty() && iban.isEmpty()) {
             etIban.setVisibility(View.GONE);
             etReceiver.setVisibility(View.GONE);
         }
-        etReceiver.setHint(receiver);
-        etIban.setHint(iban);
+            etReceiver.setHint(receiver);
+            etIban.setHint(iban);
 
 
     }
@@ -134,8 +140,19 @@ public class SummaryFragment extends Fragment {
         saveButton.setOnClickListener(v -> {
             Bitmap signatureBitmap = signaturePad.getSignatureBitmap();
 
+
             if (signatureBitmap != null) {
                 btnSignature.setImageBitmap(signatureBitmap);
+
+                createPDF.getSignature(signatureBitmap);
+                btnSignature.setImageBitmap(signatureBitmap);
+
+                //get Path from Bitmap
+                bitmapPath = signatureBitmap;
+
+                signatureTextview.setText("Vielen Dank, du kannst weitermachen!");
+
+
 
                 signaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
                     @Override
@@ -160,7 +177,6 @@ public class SummaryFragment extends Fragment {
                 Toast.makeText(getActivity(), "Fehler beim speichern der Unterschrift!", Toast.LENGTH_SHORT).show();
 
             }
-            btnSignature.setImageBitmap(signatureBitmap);
 
             dialog.dismiss();
         });

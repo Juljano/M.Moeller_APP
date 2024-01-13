@@ -11,6 +11,8 @@ public class CustomerData {
     private Boolean isCashPayment;
     private Boolean isBankTransfer;
 
+
+
     private String receiverName;
 
     private String iBan;
@@ -53,6 +55,34 @@ public class CustomerData {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Boolean getPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(Boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
+
+    public Boolean getBusiness() {
+        return isBusiness;
+    }
+
+    public void setBusiness(Boolean business) {
+        isBusiness = business;
+    }
+
+    public Boolean getCashPayment() {
+        return isCashPayment;
+    }
+
+    public Boolean getBankTransfer() {
+        return isBankTransfer;
+    }
+
+    public void setBankTransfer(Boolean bankTransfer) {
+        isBankTransfer = bankTransfer;
     }
 
     public String getTaxNumber() {

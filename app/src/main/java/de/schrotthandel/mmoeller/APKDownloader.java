@@ -4,7 +4,11 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Scanner;
 
 public class APKDownloader implements Downloader {
 
@@ -14,11 +18,30 @@ public class APKDownloader implements Downloader {
         this.context = context;
     }
 
+
+    @Override
+    public void checkUpdate() throws IOException {
+
+        //Call the website and check if update is available.
+        //The Url from Update-Server
+        final String updateUrl = "https://www.schrotthandel-moeller.de/Android-Update/Version.txt";
+        URL url = new URL(updateUrl);
+        Scanner newVersion = new Scanner(url.openStream());
+        String getAppVersion = newVersion.toString();
+        Log.d("checkUpdate", getAppVersion);
+
+      /*  if (!getAppVersion.isEmpty()){
+
+            downlaodAPK(updateUrl);
+        }*/
+
+    }
+
     public void downlaodAPK(String url) {
 
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Update.jpg");
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Update.apk");
 
     }
 

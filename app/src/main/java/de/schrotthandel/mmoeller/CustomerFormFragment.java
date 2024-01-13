@@ -1,32 +1,32 @@
 package de.schrotthandel.mmoeller;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-
+import android.widget.Toast;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class CustomerFormFragment extends Fragment {
 
-
     private TextInputEditText etName, etAdress, etCity, etDate, etTaxNumber, etReceiverName, etIban;
     private RadioButton radioButtonPrivate, radioButtonBusiness, radioButtonCashPayment, radioButtonPerBank;
     private RadioGroup radioGroupType, radioGroupPayment;
-
     private boolean isPrivate, isBusiness, isBankTransfer, isCashPayment = false;
-    private Button btn;
+    private FloatingActionButton btn;
     private Spinner customerSpinner;
     private LinearLayout linearLayoutBank;
+    
+    private CustomerData customerData = CustomerData.getInstance();
 
 
     @Override
@@ -61,17 +61,23 @@ public class CustomerFormFragment extends Fragment {
         btn.setOnClickListener(view1 -> {
 
 
-            //set the Values from Customer
-            setCustomerData();
+            //checked that all Textinputfields are filled before you can switch to next Fragment
+            if (areAllFieldsFilled()) {
 
+                //set the Values from Customer
+                setCustomerData();
 
-            //Switches to next Fragment "fragment_selection"
-            SelectionFragment selectionFragment = new SelectionFragment();
-            FragmentTransaction fragmentTransaction = requireFragmentManager().beginTransaction();
+                //Switches to next Fragment "fragment_selection"
+                SelectionFragment selectionFragment = new SelectionFragment();
+                FragmentTransaction fragmentTransaction = requireFragmentManager().beginTransaction();
 
-            fragmentTransaction.replace(R.id.mainactivity_container, selectionFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+                fragmentTransaction.replace(R.id.mainactivity_container, selectionFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+            } else {
+                Toast.makeText(getActivity(), "Bitte alle Felder ausfüllen!", Toast.LENGTH_LONG).show();
+            }
 
         });
 
@@ -79,19 +85,20 @@ public class CustomerFormFragment extends Fragment {
         return view;
     }
 
+
     private void setCustomerData() {
 
-        CustomerData.getInstance().setName(etName.getText().toString());
-        CustomerData.getInstance().setAddress(etAdress.getText().toString());
-        CustomerData.getInstance().setCityAndPLZ(etCity.getText().toString());
-        CustomerData.getInstance().setDate(etDate.getText().toString());
-        CustomerData.getInstance().setTaxNumber(etTaxNumber.getText().toString());
-        CustomerData.getInstance().isPrivate(isPrivate);
-        CustomerData.getInstance().isBusiness(isBusiness);
-        CustomerData.getInstance().isCashPayment(isCashPayment);
-        CustomerData.getInstance().isBankTransfer(isBankTransfer);
-        CustomerData.getInstance().setReceiverName(etReceiverName.getText().toString());
-        CustomerData.getInstance().setiBan(etIban.getText().toString());
+        customerData.setName(etName.getText().toString());
+        customerData.setAddress(etAdress.getText().toString());
+        customerData.setCityAndPLZ(etCity.getText().toString());
+        customerData.setDate(etDate.getText().toString());
+        customerData.setTaxNumber(etTaxNumber.getText().toString());
+        customerData.setReceiverName(etReceiverName.getText().toString());
+        customerData.setiBan(etIban.getText().toString());
+
+
+        Log.d("CustomerFragment", customerData.getName());
+        
 
     }
 
@@ -102,10 +109,13 @@ public class CustomerFormFragment extends Fragment {
             if (radioButtonBusiness.isChecked()) {
 
                 isBusiness = true;
+                customerData.setBusiness(true);
 
             } else if (radioButtonPrivate.isChecked()) {
 
                 isPrivate = true;
+                customerData.setPrivate(true);
+
             }
         });
 
@@ -113,13 +123,13 @@ public class CustomerFormFragment extends Fragment {
 
             if (radioButtonCashPayment.isChecked()) {
 
-
                 //if linearLayoutBank is gone, then will be set etIban and etReceiver on null
                 linearLayoutBank.setVisibility(View.GONE);
                 etIban.setText("");
                 etReceiverName.setText("");
 
                 isCashPayment = true;
+                customerData.setCashPayment(true);;
 
 
             } else if (radioButtonPerBank.isChecked()) {
@@ -127,7 +137,7 @@ public class CustomerFormFragment extends Fragment {
                 linearLayoutBank.setVisibility(View.VISIBLE);
 
                 isBankTransfer = true;
-
+                customerData.setBankTransfer(true);
 
             }
         });
@@ -135,4 +145,39 @@ public class CustomerFormFragment extends Fragment {
 
     }
 
+
+
+    //checked that all Textinputfields are filled
+    private boolean areAllFieldsFilled() {
+
+        if (TextUtils.isEmpty(etName.getText())) {
+            return false;
+        }
+        if (TextUtils.isEmpty(etAdress.getText())) {
+            return false;
+        }
+        if (TextUtils.isEmpty(etCity.getText())) {
+            return false;
+        }
+        if (TextUtils.isEmpty(etDate.getText())) {
+            return false;
+        }
+        if (TextUtils.isEmpty(etTaxNumber.getText())) {
+            return false;
+        }
+
+
+        if (isBankTransfer) {
+
+            if (TextUtils.isEmpty(etReceiverName.getText())) {
+                return false;
+            }
+            if (TextUtils.isEmpty(etIban.getText())) {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
 }

@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "576778854631",
+    "firebase_url": "https://schrotthandel-moeller-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "schrotthandel-moeller",
+    "storage_bucket": "schrotthandel-moeller.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576778854631:android:f6e1b9123430567ebbc242",
+        "android_client_info": {
+          "package_name": "de.janoroid.rechnungmoeller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576778854631-6aarabdk86de96vbg8oe5p9b09v4dhrn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.janoroid.rechnungmoeller",
+            "certificate_hash": "53c43f4be70f231d46fa8d659f5310f2c84ec358"
+          }
+        },
+        {
+          "client_id": "576778854631-s3gupeflcv8pmpig76l9ldrrepni6j27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3dw5wqK3J3wW0Vyio-5Vy1MpFJOW_2Bg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576778854631-s3gupeflcv8pmpig76l9ldrrepni6j27.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576778854631:android:982d75630af14546bbc242",
+        "android_client_info": {
+          "package_name": "de.schrotthandel.mmoeller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576778854631-s3gupeflcv8pmpig76l9ldrrepni6j27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3dw5wqK3J3wW0Vyio-5Vy1MpFJOW_2Bg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576778854631-s3gupeflcv8pmpig76l9ldrrepni6j27.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -80,8 +80,9 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="10dp"
                 android:textColor="#F4F5FC"
+                android:inputType="numberPassword"
                 android:hint="Steuernummer / Personalausweis-Nr">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -125,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="25dp">
+                android:layout_marginBottom="5dp">
 
                 <View
                     android:layout_width="50dp"
@@ -150,61 +151,62 @@
 
             </RadioGroup>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="-20dp"
-            android:id="@+id/linearLayoutBank"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bankverbindung für die Überweisung"
-                android:textStyle="bold"
-                />
-
-
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
+                android:id="@+id/linearLayoutBank"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:textColor="#F4F5FC"
-                android:hint="Name des Empfängers">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="5dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etReceiverName"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bankverbindung für die Überweisung"
+                    android:textStyle="bold" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:hint="Name des Empfängers"
+                    android:textColor="#F4F5FC">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:textColor="#F4F5FC"
-                android:hint="IBAN">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etReceiverName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etIban"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="IBAN"
+                    android:textColor="#F4F5FC">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etIban"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
         </LinearLayout>
 
-            <Button
-                android:id="@+id/btnNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="-20dp"
-                android:text="Weiter  1/3" />
-
-
-
-        </LinearLayout>
 
     </ScrollView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="569dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/baseline_check_24"
+        android:layout_alignParentRight="true"
+        android:clickable="true"/>
 
 </RelativeLayout>

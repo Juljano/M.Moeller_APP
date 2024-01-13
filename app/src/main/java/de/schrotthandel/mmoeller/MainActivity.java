@@ -18,6 +18,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     ActionBar actionBar;
@@ -75,15 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onStart() {
 
         super.onStart();
+        // Check if Update is available
 
-        //APKDownloader apkDownloader = new APKDownloader(this);
-        //String fileUrl = "https://www.techsmith.de/blog/wp-content/uploads/2020/11/TechSmith-Blog-JPGvsPNG-DE.png";
-        //apkDownloader.downlaodAPK(fileUrl);
+
 
     }
 
