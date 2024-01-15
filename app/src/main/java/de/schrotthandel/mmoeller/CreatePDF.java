@@ -8,8 +8,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
-
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -22,10 +20,12 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.Random;
 
 public class CreatePDF {
 
@@ -43,6 +43,9 @@ public class CreatePDF {
             createTitle(customerData);
             createHeader(customerData);
             createTable();
+
+            System.out.println("getAccountNumber "+ createAccountNumber());
+
 
         }
     }
@@ -229,7 +232,7 @@ public class CreatePDF {
         }
 
 
-        public void setSignature (Bitmap bitmap){
+        private void setSignature (Bitmap bitmap){
 
         }
 
@@ -239,11 +242,24 @@ public class CreatePDF {
         }
 
 
-        public void setDataToPdf () {
+        private void setDataToPdf () {
 
            // Toast.makeText(, "PDF wurde erstellt!", Toast.LENGTH_LONG).show();
 
 
+        }
+
+
+
+        //Create account Number of the Customer and Tax office
+        private String createAccountNumber(){
+
+            Random random = new Random();
+            LocalDateTime localDateTime = LocalDateTime.now();
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            Log.d("accountNumber " , dateTimeFormatter.format(localDateTime) + "-" + random.nextInt());
+
+            return dateTimeFormatter.format(localDateTime) + "-" +random.nextInt();
         }
 
         private PdfPCell getCell (String text,int alignment){

@@ -8,14 +8,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -28,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private final CustomerFormFragment customerFormFragment = new CustomerFormFragment();
     private final ContactsFragment contactsFragment = new ContactsFragment();
     private final CheckFragment checkFragment = new CheckFragment();
+
+    private RelativeLayout relativeLayout;
     private static final String[] PERMISSIONS_STORAGE = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
@@ -67,12 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
         bottomNavigationView = findViewById(R.id.bottomnavigation);
+        //For the Snackbar-Messagebox
+        relativeLayout = findViewById(R.id.mainactivity_container);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
+
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.mainactivity_container, new CustomerFormFragment())
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainactivity_container, new CustomerFormFragment()).commit();
         }
 
     }
@@ -83,6 +94,34 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // Check if Update is available
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Handler handler = new Handler(Looper.getMainLooper());
+
+                CheckUpdate.getVersionNumber();
+
+                boolean isUpdateAvailable = CheckUpdate.checkVersion();
+
+                Log.d("isUpdateAvailable", String.valueOf(isUpdateAvailable));
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (isUpdateAvailable) {
+                            Snackbar.make(relativeLayout, "Es ist ein Update verfügbar!", Snackbar.LENGTH_LONG).setAction("Download", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.setData(Uri.parse("https://www.schrotthandel-moeller.de/Android-Update/Version.txt"));
+                                    startActivity(intent);
+                                }
+                            }).show();
+                        }
+                    }
+                });
+            }
+        }).start();
 
 
     }

@@ -25,7 +25,6 @@ public class SummaryFragment extends Fragment {
 
     private TextView signatureTextview;
 
-
     private Button btnFinish;
 
     private ImageButton btnSignature;
