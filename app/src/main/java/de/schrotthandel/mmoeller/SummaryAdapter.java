@@ -32,7 +32,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
 
     @Override
     public int getItemCount() {
-       return metallTypeData.getMetalTypeList().size();
+        return metallTypeData.getMetalTypeList().size();
     }
 
 

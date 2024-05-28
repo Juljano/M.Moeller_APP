@@ -15,17 +15,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.github.gcacace.signaturepad.views.SignaturePad;
-import com.google.android.material.textfield.TextInputEditText;
 import com.itextpdf.text.DocumentException;
 
 public class SummaryFragment extends Fragment {
 
-    private TextInputEditText etName, etAdress, etCity, etDate, etTaxNumber, etIban, etReceiver;
+    private TextView tvName, tvAdress, tvCity, tvDate, tvTaxNumber, tvIban, tvReceiver, tvTitle;
     private String name, adress, cityAndPlZ, date, taxNumber, receiver, iban;
-
-    private TextView signatureTextview;
-
-    private Button btnFinish;
 
     private ImageButton btnSignature;
 
@@ -33,27 +28,27 @@ public class SummaryFragment extends Fragment {
 
     private Button clearButton, saveButton;
 
-    private Bitmap bitmapPath;
-
-    private final CreatePDF createPDF = new CreatePDF();
-
+    private Bitmap signatureBitmap;
+    Bitmap bitmap;
+    private CreatePDF createPDF;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_summary, container, false);
 
-        etName = view.findViewById(R.id.nameEditText);
-        etAdress = view.findViewById(R.id.addressEditText);
-        etCity = view.findViewById(R.id.cityEditText);
-        etDate = view.findViewById(R.id.dateEditText);
-        etReceiver = view.findViewById(R.id.receiverEditText);
-        etIban = view.findViewById(R.id.ibanEditText);
-        etTaxNumber = view.findViewById(R.id.taxNumberEditText);
+        tvName = view.findViewById(R.id.nameTextView);
+        tvAdress = view.findViewById(R.id.addressTextView);
+        tvCity = view.findViewById(R.id.cityTextView);
+        tvDate = view.findViewById(R.id.dateTextView);
+        tvReceiver = view.findViewById(R.id.receiverTextView);
+        tvIban = view.findViewById(R.id.ibanTextView);
+        tvTaxNumber = view.findViewById(R.id.taxNumberTextView);
         btnSignature = view.findViewById(R.id.imageButton);
-        btnFinish = view.findViewById(R.id.btnFinish);
+        tvTitle = view.findViewById(R.id.tvTitle);
+        Button btnFinish = view.findViewById(R.id.btnFinish);
         RecyclerView recyclerView = view.findViewById(R.id.metallListRecyclerView);
-        signatureTextview = view.findViewById(R.id.signatureTextview);
+        createPDF = new CreatePDF();
 
 
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
@@ -63,7 +58,7 @@ public class SummaryFragment extends Fragment {
 
         getCustomerData();
 
-        setDataToEditText();
+        setCustomerData();
 
 
         //Button for the Signature
@@ -73,8 +68,7 @@ public class SummaryFragment extends Fragment {
         btnFinish.setOnClickListener(view1 -> {
             //create pdf file
             try {
-                createPDF.getCustomerData(getContext());
-                //createPDF.getSignature(bitmapPath);
+                createPDF.getCustomerData(signatureBitmap, getContext());
             } catch (DocumentException e) {
                 throw new RuntimeException(e);
             }
@@ -97,21 +91,22 @@ public class SummaryFragment extends Fragment {
 
     }
 
-    private void setDataToEditText() {
-        etName.setHint(name);
-        etAdress.setHint(adress);
-        etCity.setHint(cityAndPlZ);
-        etDate.setHint(date);
-        etTaxNumber.setHint(taxNumber);
+    private void setCustomerData() {
+        tvName.setText(name);
+        tvAdress.setText(adress);
+        tvCity.setText(cityAndPlZ);
+        tvDate.setText(date);
+        tvTaxNumber.setText(taxNumber);
 
 
-        //if receiver and Iban is empty then are both Edittexts gone
+        //if receiver and Iban is empty,  then are the Textviews gone
         if (receiver.isEmpty() && iban.isEmpty()) {
-            etIban.setVisibility(View.GONE);
-            etReceiver.setVisibility(View.GONE);
+            tvIban.setVisibility(View.GONE);
+            tvReceiver.setVisibility(View.GONE);
+            tvTitle.setVisibility(View.GONE);
         }
-            etReceiver.setHint(receiver);
-            etIban.setHint(iban);
+            tvReceiver.setText(receiver);
+            tvIban.setText(iban);
 
 
     }
@@ -137,21 +132,11 @@ public class SummaryFragment extends Fragment {
         clearButton.setOnClickListener(v -> signaturePad.clear());
 
         saveButton.setOnClickListener(v -> {
-            Bitmap signatureBitmap = signaturePad.getSignatureBitmap();
-
+        signatureBitmap = signaturePad.getSignatureBitmap();
 
             if (signatureBitmap != null) {
+
                 btnSignature.setImageBitmap(signatureBitmap);
-
-                createPDF.getSignature(signatureBitmap);
-                btnSignature.setImageBitmap(signatureBitmap);
-
-                //get Path from Bitmap
-                bitmapPath = signatureBitmap;
-
-                signatureTextview.setText("Vielen Dank, du kannst weitermachen!");
-
-
 
                 signaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
                     @Override
@@ -173,7 +158,7 @@ public class SummaryFragment extends Fragment {
 
             } else {
 
-                Toast.makeText(getActivity(), "Fehler beim speichern der Unterschrift!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Fehler beim erstellen der Unterschrift!", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -183,5 +168,5 @@ public class SummaryFragment extends Fragment {
         dialog.show();
     }
 
-
 }
+

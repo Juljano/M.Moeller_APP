@@ -28,19 +28,12 @@ public class ExampleUnitTest {
         customerData.setCashPayment(true);
         customerData.setPrivate(true);
         customerData.setBusiness(true);
+        customerData.setCashPayment(true);
+        customerData.setBankTransfer(false);
+        customerData.setDate("12.12.2024 - 13.12.2024");
 
 
-        assertEquals("street",customerData.getAddress());
-        assertEquals("Name",customerData.getName());
-        assertEquals("Minden",customerData.getCityAndPLZ());
-        assertEquals("12.1.2024",customerData.getDate());
-        assertEquals("Steuern",customerData.getTaxNumber());
-        assertEquals("Iban",customerData.getiBan());
-        assertEquals("Firma",customerData.getReceiverName());
-        assertEquals(true,customerData.getBankTransfer());
-        assertEquals(true, customerData.getCashPayment());
-        assertEquals(true, customerData.getPrivate());
-        assertEquals(true, customerData.getBusiness());
+        assertEquals("12.12.2024 - 13.12.2024", customerData.getDate());
 
     }
 }

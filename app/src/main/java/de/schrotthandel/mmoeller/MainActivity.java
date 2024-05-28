@@ -1,32 +1,21 @@
 package de.schrotthandel.mmoeller;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private final CheckFragment checkFragment = new CheckFragment();
 
     private RelativeLayout relativeLayout;
-    private static final String[] PERMISSIONS_STORAGE = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -74,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //disable dark mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         actionBar = getSupportActionBar();
         bottomNavigationView = findViewById(R.id.bottomnavigation);
@@ -113,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view) {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setData(Uri.parse("https://www.schrotthandel-moeller.de/Android-Update/Version.txt"));
+                                    intent.setData(Uri.parse("https://www.schrotthandel-moeller.de/Android-Update/app-debug.apk"));
                                     startActivity(intent);
                                 }
                             }).show();

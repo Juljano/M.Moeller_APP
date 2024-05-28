@@ -1,177 +1,128 @@
-<!-- res/layout/fragment_summary.xml -->
-
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/summaryLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
-    
-    <ScrollView
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="70dp"> <!-- Button is visible -->
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-    <TextView
-        android:id="@+id/summaryTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        android:text="Zusammenfassung der Daten" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Name">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Adresse">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/cityEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Stadt und Postleitzahl">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/addressEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:inputType="numberPassword"
-        android:hint="Datum">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dateEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Steuernummer / Personalausweis-Nr">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/taxNumberEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Name des Empfänger">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/receiverEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Iban des Empfängers">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ibanEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Gesamtsumme in Euro">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/sumEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-
-
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/document" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
-                android:id="@+id/signatureTextview"
+                android:id="@+id/summaryTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:text="Zusammenfassung der Daten" />
+
+            <TextView
+                android:id="@+id/nameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Name" />
+
+            <TextView
+                android:id="@+id/cityTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Adresse" />
+
+            <TextView
+                android:id="@+id/addressTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Stadt und Postleitzahl" />
+
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Datum" />
+
+            <TextView
+                android:id="@+id/taxNumberTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Steuernummer / Personalausweis-Nr" />
+
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="11dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:text="Finanzielle Informationen des Kunden" />
+
+            <TextView
+                android:id="@+id/receiverTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Name des Empfänger" />
+
+            <TextView
+                android:id="@+id/ibanTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Iban des Empfängers" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:src="@drawable/signature" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/productsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="11dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:text="Ausgewählte Metallsorten:" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/metallListRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+            <Button
+                android:id="@+id/btnFinish"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="klicken, für die Unterschrift"
-                android:textStyle="bold"
-                android:layout_marginStart="10dp"
-                android:layout_gravity="center_vertical" />
-
-
+                android:text="Abrechung erstellen" />
         </LinearLayout>
 
-    <TextView
-        android:id="@+id/productsTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        android:text="Ausgewählte Metallsorten:" />
+    </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/metallListRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/btnFinish"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Abrechung erstellen"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp" />
-
-    </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+</ScrollView>

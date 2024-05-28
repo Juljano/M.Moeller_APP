@@ -10,16 +10,12 @@ public class CustomerData {
     private Boolean isBusiness;
     private Boolean isCashPayment;
     private Boolean isBankTransfer;
-
-
-
     private String receiverName;
-
     private String iBan;
 
+
     // Private Konstruktor, um die direkte Instanziierung zu verhindern
-    CustomerData() {
-    }
+    CustomerData() {}
 
     public static CustomerData getInstance() {
         return CustomerDataSingleton.instance;
@@ -130,7 +126,15 @@ public class CustomerData {
     public void setiBan(String iBan) {
         this.iBan = iBan;
     }
+
+
+    public void clear(){
+
+
+    }
+
 }
+
 
 class CustomerDataSingleton {
     static CustomerData instance = new CustomerData();

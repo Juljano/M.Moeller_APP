@@ -21,12 +21,12 @@ public class CustomerFormFragment extends Fragment {
     private TextInputEditText etName, etAdress, etCity, etDate, etTaxNumber, etReceiverName, etIban;
     private RadioButton radioButtonPrivate, radioButtonBusiness, radioButtonCashPayment, radioButtonPerBank;
     private RadioGroup radioGroupType, radioGroupPayment;
-    private boolean isPrivate, isBusiness, isBankTransfer, isCashPayment = false;
     private FloatingActionButton btn;
     private Spinner customerSpinner;
+
+    private boolean isBankTransfer;
     private LinearLayout linearLayoutBank;
-    
-    private CustomerData customerData = CustomerData.getInstance();
+    private CustomerData customerData;
 
 
     @Override
@@ -53,6 +53,9 @@ public class CustomerFormFragment extends Fragment {
         etIban = view.findViewById(R.id.etIban);
         etReceiverName = view.findViewById(R.id.etReceiverName);
         linearLayoutBank.setVisibility(View.GONE); //Standard Value
+        customerData = CustomerData.getInstance();
+        isBankTransfer = false;
+
 
 
         setupRadioGroups();
@@ -64,20 +67,32 @@ public class CustomerFormFragment extends Fragment {
             //checked that all Textinputfields are filled before you can switch to next Fragment
             if (areAllFieldsFilled()) {
 
-                //set the Values from Customer
-                setCustomerData();
+                if (radioButtonPerBank.isChecked() || radioButtonCashPayment.isChecked()) {
 
-                //Switches to next Fragment "fragment_selection"
-                SelectionFragment selectionFragment = new SelectionFragment();
-                FragmentTransaction fragmentTransaction = requireFragmentManager().beginTransaction();
+                    if (radioButtonPrivate.isChecked() || radioButtonBusiness.isChecked()) {
 
-                fragmentTransaction.replace(R.id.mainactivity_container, selectionFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                        //set the Values from Customer
+                        setCustomerData();
 
-            } else {
-                Toast.makeText(getActivity(), "Bitte alle Felder ausfüllen!", Toast.LENGTH_LONG).show();
+                        //Switches to next Fragment "fragment_selection"
+                        SelectionFragment selectionFragment = new SelectionFragment();
+                        FragmentTransaction fragmentTransaction = requireFragmentManager().beginTransaction();
+
+                        fragmentTransaction.replace(R.id.mainactivity_container, selectionFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+
+                }
+
             }
+
+            if (!areAllFieldsFilled() || !radioButtonPerBank.isChecked() || !radioButtonCashPayment.isChecked() || !radioButtonPrivate.isChecked() || !radioButtonBusiness.isChecked()){
+
+                Toast.makeText(getActivity(), "Bitte alle Felder ausfüllen und Kunden-/Bezahltyp wählen!", Toast.LENGTH_LONG).show();
+
+            }
+
 
         });
 
@@ -104,40 +119,39 @@ public class CustomerFormFragment extends Fragment {
 
     private void setupRadioGroups() {
 
-        radioGroupType.setOnCheckedChangeListener((group, checkedId) -> {
+            radioGroupType.setOnCheckedChangeListener((group, checkedId) -> {
 
-            if (radioButtonBusiness.isChecked()) {
+                if (radioButtonBusiness.isChecked()) {
+                    customerData.setBusiness(true);
+                    customerData.setPrivate(false);
 
-                isBusiness = true;
-                customerData.setBusiness(true);
+                } else if (radioButtonPrivate.isChecked()) {
 
-            } else if (radioButtonPrivate.isChecked()) {
+                    customerData.setPrivate(true);
+                    customerData.setBusiness(false);
 
-                isPrivate = true;
-                customerData.setPrivate(true);
+                }
+            });
 
-            }
-        });
+
 
         radioGroupPayment.setOnCheckedChangeListener((group, checkedId) -> {
 
             if (radioButtonCashPayment.isChecked()) {
-
                 //if linearLayoutBank is gone, then will be set etIban and etReceiver on null
                 linearLayoutBank.setVisibility(View.GONE);
                 etIban.setText("");
                 etReceiverName.setText("");
-
-                isCashPayment = true;
-                customerData.setCashPayment(true);;
-
+                isBankTransfer = false;
+                customerData.setCashPayment(true);
+                customerData.setBankTransfer(false);
 
             } else if (radioButtonPerBank.isChecked()) {
 
                 linearLayoutBank.setVisibility(View.VISIBLE);
-
                 isBankTransfer = true;
                 customerData.setBankTransfer(true);
+                customerData.setCashPayment(false);
 
             }
         });
@@ -166,16 +180,9 @@ public class CustomerFormFragment extends Fragment {
             return false;
         }
 
-
         if (isBankTransfer) {
 
-            if (TextUtils.isEmpty(etReceiverName.getText())) {
-                return false;
-            }
-            if (TextUtils.isEmpty(etIban.getText())) {
-                return false;
-            }
-
+            return !TextUtils.isEmpty(etReceiverName.getText()) && !TextUtils.isEmpty(etIban.getText());
         }
 
         return true;

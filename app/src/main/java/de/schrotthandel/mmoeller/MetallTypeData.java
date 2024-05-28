@@ -7,7 +7,7 @@ public class MetallTypeData {
     private List<String> metalTypeList = new ArrayList<>();
     private List<Double> weightList = new ArrayList<>();
     private List<Double> priceList = new ArrayList<>();
-    private List<Double> sumList = new ArrayList();
+    private List<Double> sumList = new ArrayList<>();
 
 
     public static MetallTypeData getInstance() {
@@ -49,9 +49,16 @@ public class MetallTypeData {
     public void setSumList(List<Double> sumList) {
         this.sumList = sumList;
     }
+
+    public void clearData() {
+        metalTypeList.clear();
+        weightList.clear();
+        priceList.clear();
+        sumList.clear();
+    }
+
 }
 
     class MetallTypeDataSingleton {
-    static MetallTypeData instance = new MetallTypeData();
-
-}
+        static MetallTypeData instance = new MetallTypeData();
+    }
