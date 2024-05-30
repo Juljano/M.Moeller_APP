@@ -1,7 +1,9 @@
 package de.schrotthandel.mmoeller;
+
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +26,8 @@ public class MetallTypeAdapter extends RecyclerView.Adapter<MetallTypeAdapter.Me
     private final List<Metall> metallList;
     private final List<Double> tempKgValues = new ArrayList<>();
     private final List<Double> tempKgPerEuroValues = new ArrayList<>();
-    private final List <String> metallSort =new ArrayList<>();
+    private final List<String> metalSort = new ArrayList<>();
+    private final List<Double> sum = new ArrayList<>();
     private final Context context;
 
 
@@ -59,8 +62,12 @@ public class MetallTypeAdapter extends RecyclerView.Adapter<MetallTypeAdapter.Me
 
                 try {
 
-                    calculateAndDisplayResult(holder);
-                    setMetallSort(holder);
+                    holder.pricePerKgEditText.setOnFocusChangeListener((v, hasFocus) -> {
+                        if (!hasFocus){
+                            calculateAndDisplayResult(holder);
+                            setMetallSort(holder);
+                        }
+                    });
 
 
                 } catch (NumberFormatException e) {
@@ -87,7 +94,6 @@ public class MetallTypeAdapter extends RecyclerView.Adapter<MetallTypeAdapter.Me
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-
                 try {
 
                     calculateAndDisplayResult(holder);
@@ -111,7 +117,7 @@ public class MetallTypeAdapter extends RecyclerView.Adapter<MetallTypeAdapter.Me
 
 
     public List<String> getMetallSort() {
-        return metallSort;
+        return metalSort;
     }
 
     public List<Double> getTempKgValues() {
@@ -120,6 +126,11 @@ public class MetallTypeAdapter extends RecyclerView.Adapter<MetallTypeAdapter.Me
 
     public List<Double> getTempKgPerEuroValues() {
         return tempKgPerEuroValues;
+    }
+
+    public List<Double> getSum() {
+
+        return sum;
     }
 
     @Override
@@ -147,38 +158,45 @@ public class MetallTypeAdapter extends RecyclerView.Adapter<MetallTypeAdapter.Me
     }
 
 
-    private void setMetallSort(MetallViewHolder holder){
+    private void setMetallSort(MetallViewHolder holder) {
 
-        if (!metallSort.contains(holder.metallNameTextView.getText().toString())){
+        if (!metalSort.contains(holder.metallNameTextView.getText().toString())) {
 
-            metallSort.add(holder.metallNameTextView.getText().toString());
+            metalSort.add(holder.metallNameTextView.getText().toString());
 
         }
     }
 
     private void calculateAndDisplayResult(MetallViewHolder holder) {
-
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.GERMAN);
+        Locale locale = new Locale("de", "DE");
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
 
         try {
 
-            double kgValue = Double.parseDouble(holder.weightEditText.getText().toString());
-            double kgPerEuroValue = Double.parseDouble(holder.pricePerKgEditText.getText().toString());
+            String weightText = holder.weightEditText.getText().toString().replace(",", ".");
+            double kgValue = Double.parseDouble(weightText);
 
-            tempKgValues.add(Double.parseDouble(holder.weightEditText.getText().toString()));
-            tempKgPerEuroValues.add(Double.parseDouble(holder.pricePerKgEditText.getText().toString()));
+            String priceText = holder.pricePerKgEditText.getText().toString().replace(",", ".");
+            double kgPerEuroValue = Double.parseDouble(priceText);
+
+            tempKgValues.add(kgValue);
+            tempKgPerEuroValues.add(kgPerEuroValue);
 
             double result = kgPerEuroValue * kgValue;
 
             holder.sumEditText.setText(numberFormat.format(result));
+            sum.add(result);
+
+            Log.d("summaryFragment-beforeSum", sum.toString());
+            // Log.d("summaryFragment-beforekg", tempKgValues.toString());
+            // Log.d("summaryFragment-beforepricekg", tempKgPerEuroValues.toString());
 
         } catch (NumberFormatException e) {
 
-            // Fehlerhafte Eingabe verhindern
+            // avoid wrong input
             holder.sumEditText.setText("Ungültiger Wert");
-
-
         }
+
 
     }
 }

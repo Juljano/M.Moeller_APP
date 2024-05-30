@@ -46,11 +46,13 @@ public class SelectionFragment extends Fragment{
                 Log.d("SummaryFragment-Sort", metallTypeAdapter.getMetallSort().get(i));
                 Log.d("SummaryFragment-kg", String.valueOf(metallTypeAdapter.getTempKgValues().get(i)));
                 Log.d("SummaryFragment-Price/kg", String.valueOf(metallTypeAdapter.getTempKgPerEuroValues().get(i)));
+                Log.d("SummaryFragment-Sum", metallTypeAdapter.getSum().get(i).toString());
+
 
                 metallTypeData.getMetalTypeList().add(metallTypeAdapter.getMetallSort().get(i));
                 metallTypeData.getWeightList().add(metallTypeAdapter.getTempKgValues().get(i));
                 metallTypeData.getPriceList().add(metallTypeAdapter.getTempKgPerEuroValues().get(i));
-                metallTypeData.getSumList().add(metallTypeAdapter.getTempKgValues().get(i) * metallTypeAdapter.getTempKgPerEuroValues().get(i));
+                metallTypeData.getSumList().add(metallTypeAdapter.getSum().get(i));
             }
 
 
